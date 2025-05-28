@@ -8,9 +8,9 @@ import os
 import json
 from typing import Dict, List, Any, Optional
 
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 
 from get_embedding_function import get_embedding_function
 
@@ -134,7 +134,7 @@ def query_rag(
         
         # Query the LLM
         try:
-            llm = Ollama(model=model)
+            llm = OllamaLLM(model=model)
             response_text = llm.invoke(formatted_prompt)
             response_data["answer"] = response_text
             response_data["sources"] = sources

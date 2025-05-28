@@ -2,7 +2,7 @@
 """
 Module for providing embedding functionality for the RAG system.
 """
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def get_embedding_function():
     """

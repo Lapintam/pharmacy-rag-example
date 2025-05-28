@@ -20,7 +20,7 @@ from langchain_community.document_loaders import (
     TextLoader,
     Docx2txtLoader,
 )
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 # Import from langchain-core
 from langchain_core.documents import Document
