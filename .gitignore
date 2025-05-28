@@ -21,3 +21,14 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test reports and generated files
+rag_benchmark_report_*.json
+*.log
+*.sqlite
+*.db
+
+# Model files (if downloaded locally)
+models/
+*.bin
+*.safetensors
