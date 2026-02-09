@@ -93,30 +93,32 @@ def query_rag(
         context_parts = []
         sources = []
         
-        # Sort results by score (higher is better)
-        results.sort(key=lambda x: x[1], reverse=True)
+        # Sort results by L2 distance (lower distance = more relevant)
+        results.sort(key=lambda x: x[1])
         
         for i, (doc, score) in enumerate(results):
             # Create source ID from filename or index
             source_id = doc.metadata.get("id", f"source-{i}")
             title = doc.metadata.get("title", "Unknown")
-            line_start = doc.metadata.get("line_start", "Unknown")
-            line_end = doc.metadata.get("line_end", "Unknown")
+            page_number = doc.metadata.get("page_number", None)
             
             # Add formatted content to context
             context_parts.append(f"{doc.page_content}\n\nSource: [{source_id}]")
             
-            # Extract line reference information
-            line_ref = ""
-            if line_start != "Unknown" and line_end != "Unknown":
-                line_ref = f"Lines {line_start}-{line_end}"
+            # Build location reference from page number
+            location_ref = f"Page {page_number}" if page_number is not None else ""
+            
+            # Convert L2 distance to a relevance score (higher = more relevant)
+            # Using 1 / (1 + distance) to map distance [0, inf) -> relevance (0, 1]
+            relevance = 1.0 / (1.0 + float(score))
             
             # Add source information
             sources.append({
                 "id": source_id,
                 "title": title,
-                "relevance_score": float(score),
-                "line_reference": line_ref,
+                "relevance_score": relevance,
+                "distance": float(score),
+                "location": location_ref,
                 "text_sample": doc.page_content[:100] + "..." if len(doc.page_content) > 100 else doc.page_content
             })
         
@@ -156,10 +158,9 @@ def query_rag(
             for i, source in enumerate(sources):
                 print(f"[{i+1}] {source['id']}")
                 print(f"    Title: {source['title']}")
-                line_info = f"    {source['line_reference']}" if source['line_reference'] else ""
-                if line_info:
-                    print(line_info)
-                print(f"    Relevance: {source['relevance_score']:.4f}")
+                if source['location']:
+                    print(f"    {source['location']}")
+                print(f"    Relevance: {source['relevance_score']:.4f} (L2 distance: {source['distance']:.4f})")
                 print(f"    Content excerpt: {source['text_sample']}")
                 print("")
     

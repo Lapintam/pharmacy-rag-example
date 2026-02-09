@@ -1,21 +1,16 @@
 # Pharmacy RAG System
 
-A **secure, enterprise-grade** Retrieval-Augmented Generation (RAG) system specifically designed for pharmacy and medical knowledge management. This system runs **completely locally** with no external API calls, ensuring **maximum data privacy and security** for healthcare organizations.
+A local playground for running local Retrieval-Augmented Generation (RAG) system specifically designed for pharmacy and medical knowledge retrieval. This system runs locally, ensuring maximum data privacy and security for healthcare organizations.
 
-## Enterprise Security Features
+## Key Features
 
 - **100% Local Operation**: All models run locally via Ollama - no data leaves your infrastructure
 - **No External API Calls**: Zero dependency on cloud services or third-party APIs
 - **HIPAA-Ready Architecture**: Designed with healthcare data privacy in mind
-- **Air-Gap Compatible**: Can operate in completely isolated network environments
 - **Local Vector Storage**: ChromaDB runs locally with no external database connections
-
-## Key Features
-
-- **Pharmacy-Focused Knowledge Base**: Optimized for pharmaceutical, toxicology, and clinical information
 - **Multi-Modal Document Support**: Process PDF, DOCX, and TXT medical documents
 - **Advanced Retrieval**: Semantic search with configurable relevance scoring
-- **Source Attribution**: Every answer includes specific document references and line numbers
+- **Source Attribution**: Every answer includes specific document references and page numbers
 - **Comprehensive Testing**: Industry-standard benchmarking for accuracy and safety
 - **Performance Monitoring**: Built-in metrics for response time and quality assessment
 
@@ -112,8 +107,6 @@ python test_rag_system.py
 - **Accuracy Testing**: Keyword-based relevance scoring
 - **Safety-Critical Validation**: Special focus on medication safety
 - **Performance Metrics**: Response time and throughput analysis
-- **Category-Specific Tests**: Cardiology, toxicology, pediatrics, etc.
-- **Enterprise Readiness**: Reliability and consistency testing
 
 ## System Architecture
 
@@ -160,32 +153,18 @@ text_splitter = RecursiveCharacterTextSplitter(
 ```
 pharmacy-rag-example/
 ├── data/                          # Medical document storage
-│   ├── Cardiology/               # Cardiovascular medications
-│   ├── Toxicology/               # Poison control & antidotes
-│   ├── Pediatrics/               # Pediatric dosing guidelines
-│   ├── Infectious Disease/       # Antimicrobial therapy
-│   └── ...                       # Additional medical specialties
-├── chroma/                       # Vector database (auto-generated)
-├── process_documents.py          # Document ingestion pipeline
-├── query_data.py                 # Query interface and RAG engine
-├── get_embedding_function.py     # Embedding model configuration
-├── test_rag_system.py           # Comprehensive testing suite
-├── setup.py                      # Automated setup and system check
-└── requirements.txt              # Python dependencies
+│   ├── USERS LOCAL DATA 1/        # E.g. Cardiovascular medications
+│   ├── USERS LOCAL DATA 2/        # E.g. Poison control & antidotes
+│   ├── USERS LOCAL DATA 3/        # E.g.Pediatric dosing guidelines
+│   └── ...                        # Additional medical specialties
+├── process_documents.py           # Document ingestion pipeline
+├── chroma/                        # Vector database (auto-generated)
+├── query_data.py                  # Query interface and RAG engine
+├── get_embedding_function.py      # Embedding model configuration
+├── test_rag_system.py             # Comprehensive testing suite
+├── setup.py                       # Automated setup and system check
+└── requirements.txt               # Python dependencies
 ```
-
-## Medical Specialties Supported
-
-The system is pre-configured for these pharmacy/medical domains:
-
-- **Cardiology**: Heart medications, contraindications
-- **Toxicology**: Antidotes, poison management
-- **Pediatrics**: Weight-based dosing, age considerations
-- **Infectious Disease**: Antimicrobial selection
-- **Emergency Medicine**: Critical care protocols
-- **Endocrinology**: Diabetes management, hormones
-- **Neurology**: CNS medications, seizure management
-- **OBGYN**: Pregnancy safety, contraceptives
 
 ## Security & Compliance
 

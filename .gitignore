@@ -3,6 +3,10 @@
 backup
 chroma
 
+# User data files (keep the data/ directory but ignore its contents)
+data/*
+!data/.gitkeep
+
 # Virtual environments
 venv/
 .venv/

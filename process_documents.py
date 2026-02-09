@@ -142,25 +142,18 @@ def split_documents(documents: List[Document]) -> List[Document]:
         
         chunks = text_splitter.split_documents(documents)
         
-        # Add line reference metadata to chunks
+        # Add chunk reference metadata
         for i, chunk in enumerate(chunks):
-            # Calculate approximate line number ranges
-            # Since we don't have actual line numbers from the text_splitter,
-            # we'll estimate based on character position and assume average chars per line
-            content = chunk.page_content
-            avg_chars_per_line = 80  # Assumption of average characters per line
-            
-            # Assign an estimated line start and end
-            # This is a rough approximation
-            line_start = i * (1000 - 100) // avg_chars_per_line + 1  # Adjusting for overlap
-            line_end = line_start + (len(content) // avg_chars_per_line)
-            
-            # Add to metadata
-            chunk.metadata["line_start"] = line_start
-            chunk.metadata["line_end"] = line_end
-            
-            # Add chunk index for reference
+            # Use the page number from the document loader if available (PyPDFLoader provides this)
+            # Otherwise fall back to a chunk index within the source document
             chunk.metadata["chunk_index"] = i
+            
+            # Track per-source chunk position for meaningful references
+            source = chunk.metadata.get("source", "unknown")
+            page = chunk.metadata.get("page", None)
+            if page is not None:
+                # PyPDFLoader pages are 0-indexed, display as 1-indexed
+                chunk.metadata["page_number"] = page + 1
         
         print(f"Split {len(documents)} documents into {len(chunks)} chunks")
         return chunks
@@ -192,8 +185,6 @@ def store_documents(chunks: List[Document]) -> None:
             persist_directory=CHROMA_PATH,
         )
         
-        # Make sure the database is persisted
-        db.persist()
         print(f"Stored {len(chunks)} document chunks in database")
         
     except Exception as e:
